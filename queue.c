@@ -61,15 +61,14 @@ bool q_insert_head(queue_t *q, char *s)
     newh = malloc(sizeof(list_ele_t));
     if (!newh)
         return false;
-    /* TODO: What should you do if the q is NULL? */
+    /* q is NULL */
     if (!q) {
         q = q_new();
         isHeadNull = true;
     }
-    /* Don't forget to allocate space for the string and copy it */
+    /* Allocate space for the string and copy it */
     len = strlen(s) + 1;    /* + 1 for '\0' */
     p = malloc(len);
-    /* What if either call to malloc returns NULL? */
     if (!p) {
         free(newh);
         if (isHeadNull)
