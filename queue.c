@@ -15,6 +15,7 @@ queue_t *q_new()
     if (!q)
         return NULL;
     q->head = NULL;
+    q->tail = NULL;
     return q;
 }
 
@@ -77,6 +78,8 @@ bool q_insert_head(queue_t *q, char *s)
     newh->value = p;
     newh->next = q->head;
     q->head = newh;
+    if (!q->tail)
+        q->tail = newh;
     return true;
 }
 
@@ -107,7 +110,8 @@ bool q_insert_tail(queue_t *q, char *s)
     }
     memcpy(p, s, len);
     newt->value = p;
-    newt->next = NULL;
+    newt->next = q->tail->next;
+    q->tail->next = newt;
     q->tail = newt;
     return false;
 }
