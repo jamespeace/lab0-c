@@ -91,9 +91,26 @@ bool q_insert_head(queue_t *q, char *s)
  */
 bool q_insert_tail(queue_t *q, char *s)
 {
-    /* TODO: You need to write the complete code for this function */
-    /* Remember: It should operate in O(1) time */
-    /* TODO: Remove the above comment when you are about to implement. */
+    list_ele_t *newt;
+    size_t     len;
+    char       *p;
+
+    if (!q)
+        return false;
+    newt = malloc(sizeof(list_ele_t));
+    if (!newt)
+        return false;
+
+    len = strlen(s) + 1;
+    p = malloc(len);
+    if (!p) {
+        free(newt);
+        return false;
+    }
+    memcpy(p, s, len);
+    newt->value = p;
+    newt->next = NULL;
+    q->tail = newt;
     return false;
 }
 
