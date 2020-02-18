@@ -53,10 +53,31 @@ void q_free(queue_t *q)
 bool q_insert_head(queue_t *q, char *s)
 {
     list_ele_t *newh;
-    /* TODO: What should you do if the q is NULL? */
+    char *p;
+    size_t len;
+    bool isHeadNull;
+
+    isHeadNull = false;
     newh = malloc(sizeof(list_ele_t));
+    if (!newh)
+        return false;
+    /* TODO: What should you do if the q is NULL? */
+    if (!q) {
+        q = q_new();
+        isHeadNull = true;
+    }
     /* Don't forget to allocate space for the string and copy it */
+    len = strlen(s) + 1;    /* + 1 for '\0' */
+    p = malloc(len);
     /* What if either call to malloc returns NULL? */
+    if (!p) {
+        free(newh);
+        if (isHeadNull)
+            free(q);
+        return false;
+    }
+    memcpy(p, s, len);
+    newh->value = p;
     newh->next = q->head;
     q->head = newh;
     return true;
