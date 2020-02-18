@@ -67,7 +67,7 @@ bool q_insert_head(queue_t *q, char *s)
         isHeadNull = true;
     }
     /* Allocate space for the string and copy it */
-    len = strlen(s) + 1;    /* + 1 for '\0' */
+    len = strlen(s) + 1; /* + 1 for '\0' */
     p = malloc(len);
     if (!p) {
         free(newh);
@@ -92,8 +92,8 @@ bool q_insert_head(queue_t *q, char *s)
 bool q_insert_tail(queue_t *q, char *s)
 {
     list_ele_t *newt;
-    size_t     len;
-    char       *p;
+    size_t len;
+    char *p;
 
     if (!q)
         return false;
