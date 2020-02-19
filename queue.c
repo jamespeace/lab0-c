@@ -126,9 +126,28 @@ bool q_insert_tail(queue_t *q, char *s)
  */
 bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 {
-    /* TODO: You need to fix up this code. */
-    /* TODO: Remove the above comment when you are about to implement. */
+    list_ele_t *p;
+    size_t copysize;
+
+    if (!q || !q->head)
+        return false;
+    if (!sp || !bufsize)
+        return false;
+    p = q->head;
+
+    copysize = 0;
+    if (p->value) {
+        size_t len;
+        len = strlen(p->value);
+        copysize = len < bufsize ? len : bufsize;
+        memcpy(sp, p->value, copysize - 1);
+    }
+    sp[copysize] = '\0';
+
     q->head = q->head->next;
+    free(p->value);
+    free(p);
+
     return true;
 }
 
