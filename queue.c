@@ -245,7 +245,7 @@ void q_sort(queue_t *q)
     list_ele_t *curr = q->head;
 
     r.head = q->head;
-    r.size = (q->size >> 1) + (q->size % 1);
+    r.size = (q->size >> 1) + (q->size & 1);
     s.size = q->size >> 1;
     s.tail = q->tail;
     // split list
