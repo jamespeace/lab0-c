@@ -203,6 +203,36 @@ void q_reverse(queue_t *q)
     q->tail->next = NULL;
 }
 
+void merge(queue_t *r, queue_t *s, queue_t *q)
+{
+    list_ele_t pseuNode;
+    list_ele_t *temp = &pseuNode;
+    list_ele_t *p1 = r->head;
+    list_ele_t *p2 = s->head;
+
+    while (p1 && p2) {
+        if (strcmp(p1->value, p2->value) < 0) {
+            temp->next = p1;
+            temp = temp->next;
+            p1 = p1->next;
+        } else {
+            temp->next = p2;
+            temp = temp->next;
+            p2 = p2->next;
+        }
+    }
+
+    if (p1) {
+        temp->next = p1;
+        q->tail = r->tail;
+    }
+    if (p2) {
+        temp->next = p2;
+        q->tail = s->tail;
+    }
+    q->head = pseuNode.next;
+}
+
 /*
  * Sort elements of queue in ascending order
  * No effect if q is NULL or empty. In addition, if q has only one
@@ -210,6 +240,27 @@ void q_reverse(queue_t *q)
  */
 void q_sort(queue_t *q)
 {
-    /* TODO: You need to write the code for this function */
-    /* TODO: Remove the above comment when you are about to implement. */
+    if (!q || !q->head || q->size == 1)
+        return;
+
+    queue_t r, s;
+    list_ele_t *curr = q->head;
+
+    r.head = q->head;
+    r.size = (q->size >> 1) + (q->size % 1);
+    s.size = q->size >> 1;
+    s.tail = q->tail;
+    // split list
+    for (int i = r.size - 1; i > 0; i--) {
+        curr = curr->next;
+    }
+    s.head = curr->next;
+    curr->next = NULL;
+    r.tail = curr;
+
+    q_sort(&r);
+    q_sort(&s);
+
+    // merge
+    merge(&r, &s, q);
 }
