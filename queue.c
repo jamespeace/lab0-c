@@ -54,26 +54,21 @@ bool q_insert_head(queue_t *q, char *s)
     list_ele_t *newh;
     char *p;
     size_t len;
-    bool isHeadNull;
 
-    isHeadNull = false;
-    newh = malloc(sizeof(list_ele_t));
-    if (!newh)
-        return false;
     /* q is NULL */
-    if (!q) {
-        q = q_new();
-        isHeadNull = true;
-    }
+    if (!q)
+        return false;
+
     /* Allocate space for the string and copy it */
     len = strlen(s) + 1; /* + 1 for '\0' */
+    newh = malloc(sizeof(list_ele_t));
     p = malloc(len);
-    if (!p) {
+    if (!newh || !p) {
         free(newh);
-        if (isHeadNull)
-            free(q);
+        free(p);
         return false;
     }
+
     memcpy(p, s, len);
     newh->value = p;
     newh->next = q->head;
